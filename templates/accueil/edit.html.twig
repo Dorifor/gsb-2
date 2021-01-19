@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Mission!
+{% endblock %}
+
+{% block body %}
+
+    <p>Connecté en tant que {{ user.nom }} {{ user.prenom }} (sans login)</p>
+
+    {{ form_start(formMission) }}
+        {{ form_row(formMission.libelle) }}
+        {{ form_row(formMission.date_debut) }}
+        {{ form_row(formMission.date_fin) }}
+        {{ form_row(formMission.notes) }}
+        {{ form_row(formMission.destination) }}
+        {{ form_row(formMission.user) }}
+        <input type="submit" value="Modifier" class="btn btn-primary">
+    {{ form_end(formMission) }}
+
+{% endblock %}

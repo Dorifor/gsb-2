@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.nom }} {{ user.prenom }}
+{% endblock %}
+
+{% block body %}
+	<h1>{{ user.nom }}
+		{{ user.prenom }}</h1>
+	<hr>
+	<p>{{ user.email }}</p>
+	<p>{{ user.ville.id }} {{ user.ville.nom }}</p>
+	<p>{{ user.adresse }}</p>
+
+    <a href="{{ path('app_gsb_accueil') }}" class="btn btn-primary">Accueil</a>
+{% endblock %}

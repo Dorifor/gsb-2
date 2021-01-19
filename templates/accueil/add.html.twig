@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter Mission!
+{% endblock %}
+
+{% block body %}
+
+    <p>Connecté en tant que {{ user.nom }} {{ user.prenom }}</p>
+
+    {{ form_start(formMission) }}
+        {{ form_row(formMission.libelle) }}
+        {{ form_row(formMission.date_debut) }}
+        {{ form_row(formMission.date_fin) }}
+        {{ form_row(formMission.notes) }}
+        {{ form_row(formMission.nbr_repas) }}
+        {{ form_row(formMission.destination) }}
+        {{ form_widget(formMission.user, {'value' : app.user}) }}
+        <input type="submit" value="Ajouter" class="btn btn-primary">
+    {{ form_end(formMission) }}
+    
+    <a href="{{ path('app_gsb_accueil') }}" class="btn btn-primary">Accueil</a>
+
+{% endblock %}

@@ -12,9 +12,8 @@
         {{ form_row(formMission.date_debut) }}
         {{ form_row(formMission.date_fin) }}
         {{ form_row(formMission.notes) }}
-        {{ form_row(formMission.nbr_repas) }}
         {{ form_row(formMission.destination) }}
-        {{ form_widget(formMission.user, {'value' : app.user}) }}
+        {# {{ form_row(formMission.hebergement) }} #}
         <input type="submit" value="Ajouter" class="btn btn-primary">
     {{ form_end(formMission) }}
     

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Hebergement;
 use App\Entity\Mission;
 use App\Entity\User;
 use App\Entity\Ville;
@@ -23,10 +24,12 @@ class AjouterMissionType extends AbstractType
                 'class' => Ville::class,
                 'choice_label' => 'nom',
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'nom',
-            ]);
+            // ->add('hebergement', EntityType::class, [
+            //     'label' => 'Hébergement',
+            //     'class' => Hebergement::class,
+            //     'choice_label' => 'libelle'
+            // ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

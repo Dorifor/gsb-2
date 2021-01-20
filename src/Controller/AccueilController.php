@@ -30,16 +30,6 @@ class AccueilController extends AbstractController
             'user' => $user
         ]);
     }
-    
-    /**
-     * @Route("/{id}", name="app_gsb_detail_mission", methods="GET")
-     */
-    public function detail(Mission $mission) : Response
-    {
-        return $this->render("accueil/detail.html.twig", [
-            'mission' => $mission
-        ]);
-    }
 
     /**
      * @Route("/{id}/edit", name="app_gsb_edit", methods={"GET", "PUT"})
@@ -79,7 +69,7 @@ class AccueilController extends AbstractController
     /**
      * @Route("/add", name="app_gsb_add_mission", methods={"GET", "POST"})
      */
-    public function add(UserRepository $userRepository, Request $request, EntityManagerInterface $manager): Response
+    public function add(Request $request, EntityManagerInterface $manager): Response
     {
         // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -89,6 +79,7 @@ class AccueilController extends AbstractController
 
         // Création de l'objet Mission
         $mission = new Mission();
+        // $mission->setUser($user);
 
         // On crée le formulaire avec le modèle de formulaire de la table / classe Mission
         $form = $this->createForm(AjouterMissionType::class, $mission);
@@ -97,6 +88,7 @@ class AccueilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+
             $manager->persist($mission);
             $manager->flush();
 
@@ -106,6 +98,16 @@ class AccueilController extends AbstractController
         return $this->render('accueil/add.html.twig', [
             'user' => $user,
             'formMission' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="app_gsb_detail_mission", methods="GET")
+     */
+    public function detail(Mission $mission) : Response
+    {
+        return $this->render("accueil/detail.html.twig", [
+            'mission' => $mission
         ]);
     }
 }

@@ -25,14 +25,13 @@ class Hebergement
     private $libelle;
 
     /**
-     * @ORM\OneToMany(targetEntity=PrevoirHebergement::class, mappedBy="hebergement")
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="hebergement")
      */
-    private $prevoirHebergements;
+    private $missions;
 
     public function __construct()
     {
         $this->missions = new ArrayCollection();
-        $this->prevoirHebergements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,29 +52,29 @@ class Hebergement
     }
 
     /**
-     * @return Collection|PrevoirHebergement[]
+     * @return Collection|Mission[]
      */
-    public function getPrevoirHebergements(): Collection
+    public function getMissions(): Collection
     {
-        return $this->prevoirHebergements;
+        return $this->missions;
     }
 
-    public function addPrevoirHebergement(PrevoirHebergement $prevoirHebergement): self
+    public function addMission(Mission $mission): self
     {
-        if (!$this->prevoirHebergements->contains($prevoirHebergement)) {
-            $this->prevoirHebergements[] = $prevoirHebergement;
-            $prevoirHebergement->setHebergement($this);
+        if (!$this->missions->contains($mission)) {
+            $this->missions[] = $mission;
+            $mission->setHebergement($this);
         }
 
         return $this;
     }
 
-    public function removePrevoirHebergement(PrevoirHebergement $prevoirHebergement): self
+    public function removeMission(Mission $mission): self
     {
-        if ($this->prevoirHebergements->removeElement($prevoirHebergement)) {
+        if ($this->missions->removeElement($mission)) {
             // set the owning side to null (unless already changed)
-            if ($prevoirHebergement->getHebergement() === $this) {
-                $prevoirHebergement->setHebergement(null);
+            if ($mission->getHebergement() === $this) {
+                $mission->setHebergement(null);
             }
         }
 

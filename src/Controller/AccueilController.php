@@ -17,7 +17,7 @@ class AccueilController extends AbstractController
     /**
      * @Route("/", name="app_gsb_accueil")
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(): Response
     {
         // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -30,14 +30,37 @@ class AccueilController extends AbstractController
             'user' => $user
         ]);
     }
-    
+
     /**
-     * @Route("/{id}", name="app_gsb_detail_mission", methods="GET")
+     * @Route("/add", name="app_gsb_add_mission", methods={"GET", "POST"})
      */
-    public function detail(Mission $mission) : Response
+    public function add(UserRepository $userRepository, Request $request, EntityManagerInterface $manager): Response
     {
-        return $this->render("accueil/detail.html.twig", [
-            'mission' => $mission
+        // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // On récupère l'utilisateur 
+        $user = $this->getUser();
+
+        // Création de l'objet Mission
+        $mission = new Mission();
+
+        // On crée le formulaire avec le modèle de formulaire de la table / classe Mission
+        $form = $this->createForm(AjouterMissionType::class, $mission);
+
+        // Dès la soumission du formulaire, on lit les données renvoyées par celui ci
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($mission);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_gsb_accueil');
+        }
+
+        return $this->render('accueil/add.html.twig', [
+            'user' => $user,
+            'formMission' => $form->createView()
         ]);
     }
 
@@ -57,11 +80,11 @@ class AccueilController extends AbstractController
         $form = $this->createForm(AjouterMissionType::class, $mission, [
             'method' => 'PUT'
         ]);
-        
+
         // Dès la soumission du formulaire, on lit les données renvoyées par celui ci
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             // On envoit la requête à la table
             $manager->flush();
 
@@ -72,39 +95,6 @@ class AccueilController extends AbstractController
         return $this->render('accueil/edit.html.twig', [
             'user' => $user,
             'mission' => $mission,
-            'formMission' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/add", name="app_gsb_add_mission", methods={"GET", "POST"})
-     */
-    public function add(UserRepository $userRepository, Request $request, EntityManagerInterface $manager): Response
-    {
-        // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
-        // On récupère l'utilisateur 
-        $user = $this->getUser();
-
-        // Création de l'objet Mission
-        $mission = new Mission();
-
-        // On crée le formulaire avec le modèle de formulaire de la table / classe Mission
-        $form = $this->createForm(AjouterMissionType::class, $mission);
-
-        // Dès la soumission du formulaire, on lit les données renvoyées par celui ci
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            $manager->persist($mission);
-            $manager->flush();
-
-            return $this->redirectToRoute('app_gsb_accueil');
-        }
-
-        return $this->render('accueil/add.html.twig', [
-            'user' => $user,
             'formMission' => $form->createView()
         ]);
     }

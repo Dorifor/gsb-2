@@ -40,11 +40,6 @@ class Mission
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity=PrevoirHebergement::class, mappedBy="mission")
-     */
-    private $prevoirHebergements;
-
-    /**
      * @ORM\OneToMany(targetEntity=Deplacer::class, mappedBy="mission")
      */
     private $deplacements;
@@ -61,10 +56,19 @@ class Mission
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $just_heb;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Hebergement::class, inversedBy="missions")
+     */
+    private $hebergement;
+
     public function __construct()
     {
         $this->justification = new ArrayCollection();
-        $this->prevoirHebergements = new ArrayCollection();
         $this->deplacements = new ArrayCollection();
     }
 
@@ -122,36 +126,6 @@ class Mission
     }
 
     /**
-     * @return Collection|PrevoirHebergement[]
-     */
-    public function getPrevoirHebergements(): Collection
-    {
-        return $this->prevoirHebergements;
-    }
-
-    public function addPrevoirHebergement(PrevoirHebergement $prevoirHebergement): self
-    {
-        if (!$this->prevoirHebergements->contains($prevoirHebergement)) {
-            $this->prevoirHebergements[] = $prevoirHebergement;
-            $prevoirHebergement->setMission($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrevoirHebergement(PrevoirHebergement $prevoirHebergement): self
-    {
-        if ($this->prevoirHebergements->removeElement($prevoirHebergement)) {
-            // set the owning side to null (unless already changed)
-            if ($prevoirHebergement->getMission() === $this) {
-                $prevoirHebergement->setMission(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Deplacer[]
      */
     public function getDeplacements(): Collection
@@ -201,6 +175,30 @@ class Mission
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getJustHeb(): ?string
+    {
+        return $this->just_heb;
+    }
+
+    public function setJustHeb(?string $just_heb): self
+    {
+        $this->just_heb = $just_heb;
+
+        return $this;
+    }
+
+    public function getHebergement(): ?Hebergement
+    {
+        return $this->hebergement;
+    }
+
+    public function setHebergement(?Hebergement $hebergement): self
+    {
+        $this->hebergement = $hebergement;
 
         return $this;
     }

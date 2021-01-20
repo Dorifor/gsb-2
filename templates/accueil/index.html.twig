@@ -5,33 +5,37 @@
 
 {% block body %}
 
-    <p>Connecté en tant que {{ user.nom }} {{ user.prenom }}<a href="{{ path('app_gsb_profil', {'id' : user.id}) }}" class="btn btn-primary">Profil</a> <a href="{{ path('app_gsb_logout') }}" class="btn btn-primary">Déconnexion</a> </p>
+	<p>Connecté en tant que
+		{{ user.nom }}
+		{{ user.prenom }}<a href="{{ path('app_gsb_profil', {'id' : user.id}) }}" class="btn btn-primary">Profil</a>
+		<a href="{{ path('app_gsb_logout') }}" class="btn btn-primary">Déconnexion</a>
+	</p>
 
-    <table class="table">
-        <tr class="table-primary">
-            <td>ID</td>
-            <td>Libelle</td>
-            <td>Destination</td>
-            <td>Notes</td>
-            <td>Hebergement</td>
-        </tr>
-    {% for mission in user.missions %}
-        <tr>
-            <td>{{ mission.id }}</td>
-            <td>{{ mission.libelle }}</td>
-            <td>{{ mission.destination.nom }}</td>
-            <td>{{ mission.notes }}</td>
-            {% for h in mission.prevoirHebergements %}
-                <td>{{ h.hebergement.libelle }}</td>
-            {% endfor %}
-            <td><a class="btn btn-secondary" href="{{ path('app_gsb_edit', {'id' : mission.id}) }}">Modifier</a></td>
-        </tr>
-    {% endfor %}
-    </table>
+	<table class="table">
+		<tr class="table-primary">
+			<td>ID</td>
+			<td>Libelle</td>
+			<td>Destination</td>
+			<td>Notes</td>
+			<td>Hebergement</td>
+		</tr>
+		{% for mission in user.missions %}
+			<tr>
+				<td>{{ mission.id }}</td>
+				<td>{{ mission.libelle }}</td>
+				<td>{{ mission.destination.nom }}</td>
+				<td>{{ mission.notes }}</td>
+				<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
+				<td>
+					<a class="btn btn-secondary" href="{{ path('app_gsb_edit', {'id' : mission.id}) }}">Modifier</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
 
-    <a href="{{ path('app_gsb_add_mission') }}" class="btn btn-primary">Ajouter Mission</a>
+	<a href="{{ path('app_gsb_add_mission') }}" class="btn btn-primary">Ajouter Mission</a>
 
-    <pre>
+	<pre>
         {{ dump(user) }}
         {{ dump(user.missions) }}
     </pre>

@@ -10,13 +10,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_gsb_login")
+     * @Route("/", name="app_gsb_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // Si l'utilisateur est connecté et essaie d'aller à la page de login, il est redirigé vers l'accueil
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_gsb_accueil');
+        if ($this->getUser() && $this->isGranted('ROLE_visiteur')) {
+            return $this->redirectToRoute('app_gsb_visiteur_accueil');
+        } else if ($this->getUser() && $this->isGranted('ROLE_comptable')) {
+            return $this->redirectToRoute('app_gsb_comptable_accueil');
         }
 
         // Retourne une erreur s'il y en a une 

@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/", name="app_gsb_accueil")
+     * @Route("/visiteur", name="app_gsb_visiteur_accueil")
      */
     public function index(): Response
     {
@@ -32,7 +32,7 @@ class AccueilController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="app_gsb_add_mission", methods={"GET", "POST"})
+     * @Route("visiteur/add", name="app_gsb_add_mission", methods={"GET", "POST"})
      */
     public function add(UserRepository $userRepository, Request $request, EntityManagerInterface $manager): Response
     {
@@ -52,6 +52,7 @@ class AccueilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $mission->setUser($user);
             $manager->persist($mission);
             $manager->flush();
 
@@ -65,13 +66,9 @@ class AccueilController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_gsb_edit", methods={"GET", "PUT"})
+     * @Route("visiteur/{id}/edit", name="app_gsb_edit", methods={"GET", "PUT"}, requirements={"id"="\d+"})
      */
-<<<<<<< HEAD
     public function edit(UserRepository $userRepository, Request $request, EntityManagerInterface $manager, MissionRepository $missionRepository, $id): Response
-=======
-    public function add(Request $request, EntityManagerInterface $manager): Response
->>>>>>> ff58a5b4938c97d8794842fe59296b6e49746258
     {
         // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -80,31 +77,18 @@ class AccueilController extends AbstractController
         $user = $this->getUser();
         $mission = $missionRepository->find($id);
 
-<<<<<<< HEAD
         // On crée le formulaire avec le modèle de formulaire de la table / classe Mission avec la méthode HTTP Put
         $form = $this->createForm(AjouterMissionType::class, $mission, [
             'method' => 'PUT'
         ]);
-=======
-        // Création de l'objet Mission
-        $mission = new Mission();
-        // $mission->setUser($user);
-
-        // On crée le formulaire avec le modèle de formulaire de la table / classe Mission
-        $form = $this->createForm(AjouterMissionType::class, $mission);
->>>>>>> ff58a5b4938c97d8794842fe59296b6e49746258
 
         // Dès la soumission du formulaire, on lit les données renvoyées par celui ci
         $form->handleRequest($request);
 
-<<<<<<< HEAD
         if ($form->isSubmitted() && $form->isValid()) {
-            // On envoit la requête à la table
-=======
-        if ($form->isSubmitted() && $form->isValid()){
+            $mission->setUser($user);
 
-            $manager->persist($mission);
->>>>>>> ff58a5b4938c97d8794842fe59296b6e49746258
+            // On envoit la requête à la table
             $manager->flush();
 
             // On redirige l'utilisateur à la page d'accueil une fois la mission modifiée
@@ -119,9 +103,9 @@ class AccueilController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_gsb_detail_mission", methods="GET")
+     * @Route("visiteur/{id}", name="app_gsb_detail_mission", methods="GET", requirements={"id"="\d+"})
      */
-    public function detail(Mission $mission) : Response
+    public function detail(Mission $mission): Response
     {
         return $this->render("accueil/detail.html.twig", [
             'mission' => $mission

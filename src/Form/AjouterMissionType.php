@@ -24,7 +24,6 @@ class AjouterMissionType extends AbstractType
                 'class' => Ville::class,
                 'choice_label' => 'nom',
             ])
-<<<<<<< HEAD
             // ->add('user', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'nom',
@@ -33,14 +32,6 @@ class AjouterMissionType extends AbstractType
                 'class' => Hebergement::class,
                 'choice_label' => 'libelle'
             ]);
-=======
-            // ->add('hebergement', EntityType::class, [
-            //     'label' => 'Hébergement',
-            //     'class' => Hebergement::class,
-            //     'choice_label' => 'libelle'
-            // ])
-            ;
->>>>>>> ff58a5b4938c97d8794842fe59296b6e49746258
     }
 
     public function configureOptions(OptionsResolver $resolver)

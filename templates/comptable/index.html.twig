@@ -30,8 +30,6 @@
 					<td>Validée</td>
 				{% else %}
 					<td>En Attente</td>
-				{% endif %}
-				{% if mission.etat == 0 %}
 					<td>
 						<a class="btn btn-secondary" href="{{ path('app_gsb_comptable_afficher', {'id' : mission.id}) }}">Afficher</a>
 					</td>

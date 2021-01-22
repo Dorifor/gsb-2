@@ -12,7 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ComptableController extends AbstractController
 {
-    #[Route('/comptable', name: 'app_gsb_comptable_accueil')]
+    /**
+     * @Route("/comptable", name="app_gsb_comptable_accueil", methods={"GET"})
+     */ 
     public function index(MissionRepository $missionRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

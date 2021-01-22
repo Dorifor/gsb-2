@@ -7,7 +7,7 @@
 
 	<p>Connecté en tant que
 		{{ user.nom }}
-		{{ user.prenom }}</p>
+		{{ user.prenom }}</p>		
 
 	{{ form_start(formMission) }}
 	{{ form_row(formMission.libelle) }}
@@ -21,6 +21,11 @@
 	{{ form_row(formMission.notes) }}
 	<input type="submit" value="Modifier" class="btn btn-primary">
 	{{ form_end(formMission) }}
-	<a href="{{ path('app_gsb_accueil') }}" class="btn btn-primary">Accueil</a>
+	<a href="{{ path('app_gsb_visiteur_accueil') }}" class="btn btn-primary">Accueil</a>
 
+{% endblock %}
+{% block javascripts %}
+	<script>
+		document.getElementById()
+	</script>
 {% endblock %}

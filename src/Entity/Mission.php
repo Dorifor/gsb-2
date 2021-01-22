@@ -40,11 +40,6 @@ class Mission
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Deplacer::class, mappedBy="mission")
-     */
-    private $deplacements;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="missions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -65,6 +60,21 @@ class Mission
      * @ORM\ManyToOne(targetEntity=Hebergement::class, inversedBy="missions")
      */
     private $hebergement;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Transport::class, inversedBy="missions")
+     */
+    private $transport;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prx_transport;
 
     public function __construct()
     {
@@ -125,36 +135,6 @@ class Mission
         return $this;
     }
 
-    /**
-     * @return Collection|Deplacer[]
-     */
-    public function getDeplacements(): Collection
-    {
-        return $this->deplacements;
-    }
-
-    public function addDeplacement(Deplacer $deplacement): self
-    {
-        if (!$this->deplacements->contains($deplacement)) {
-            $this->deplacements[] = $deplacement;
-            $deplacement->setMission($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDeplacement(Deplacer $deplacement): self
-    {
-        if ($this->deplacements->removeElement($deplacement)) {
-            // set the owning side to null (unless already changed)
-            if ($deplacement->getMission() === $this) {
-                $deplacement->setMission(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getDestination(): ?Ville
     {
         return $this->destination;
@@ -199,6 +179,42 @@ class Mission
     public function setHebergement(?Hebergement $hebergement): self
     {
         $this->hebergement = $hebergement;
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getTransport(): ?Transport
+    {
+        return $this->transport;
+    }
+
+    public function setTransport(?Transport $transport): self
+    {
+        $this->transport = $transport;
+
+        return $this;
+    }
+
+    public function getPrxTransport(): ?float
+    {
+        return $this->prx_transport;
+    }
+
+    public function setPrxTransport(?float $prx_transport): self
+    {
+        $this->prx_transport = $prx_transport;
 
         return $this;
     }

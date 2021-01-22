@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detail Mission n°{{ mission.id }}
+{% endblock %}
+
+{% block body %}
+	<p>Connecté en tant que
+		{{ user.nom }}
+		{{ user.prenom }}<a href="{{ path('app_gsb_profil', {'id' : user.id}) }}" class="btn btn-primary">Profil</a>
+		<a href="{{ path('app_gsb_logout') }}" class="btn btn-primary">Déconnexion</a>
+	</p>
+
+	<table class="table">
+		<tr class="table-primary">
+			<td>ID</td>
+			<td>Libelle</td>
+			<td>Destination</td>
+			<td>Date Début</td>
+			<td>Date de Fin</td>
+			<td>Transport</td>
+			<td>Montant Transport</td>
+			<td>Hebergement</td>
+			<td>Justification</td>
+			<td>Notes</td>
+		</tr>
+		<tr>
+			<td>{{ mission.id }}</td>
+			<td>{{ mission.libelle }}</td>
+			<td>{{ mission.destination.nom }}</td>
+			<td>{{ mission.dateDebut | date('d/m/Y') }}</td>
+			<td>{{ mission.dateFin | date('d/m/Y') }}</td>
+			<td>{{ mission.transport ? mission.transport.libelle }}</td>
+			<td>{{ mission.prxTransport }}</td>
+			<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
+			<td>{{ mission.justHeb }}</td>
+			<td>{{ mission.notes }}</td>
+			<td>
+				<form action="{{ path('app_gsb_comptable_valider', {'id': mission.id}) }}" method="put" style="display: inline-block">
+					<input type="hidden" name="_method" value="put">
+					<input type="submit" value="Valider" class="btn btn-success">
+				</form>
+			</td>
+		</tr>
+	</table>
+
+{% endblock %}

@@ -26,9 +26,11 @@
 				<td>{{ mission.destination.nom }}</td>
 				<td>{{ mission.notes }}</td>
 				<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
-				<td>
-					<a class="btn btn-secondary" href="{{ path('app_gsb_edit', {'id' : mission.id}) }}">Modifier</a>
-				</td>
+				{% if mission.etat == 0 %}
+					<td>
+						<a class="btn btn-secondary" href="{{ path('app_gsb_edit', {'id' : mission.id}) }}">Modifier</a>
+					</td>
+				{% endif %}
 			</tr>
 		{% endfor %}
 	</table>

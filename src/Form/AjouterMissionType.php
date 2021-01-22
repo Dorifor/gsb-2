@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Hebergement;
 use App\Entity\Mission;
+use App\Entity\Transport;
 use App\Entity\User;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,21 +18,23 @@ class AjouterMissionType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('date_debut')
-            ->add('date_fin')
-            ->add('notes')
             ->add('destination', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
             ])
-            // ->add('user', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'nom',
-            // ])
+            ->add('date_debut')
+            ->add('date_fin')
+            ->add('transport', EntityType::class, [
+                'class' => Transport::class,
+                'choice_label' => 'libelle'
+            ])
+            ->add('prx_transport')
             ->add('hebergement', EntityType::class, [
                 'class' => Hebergement::class,
                 'choice_label' => 'libelle'
-            ]);
+            ])
+            ->add('just_heb')
+            ->add('notes');
     }
 
     public function configureOptions(OptionsResolver $resolver)

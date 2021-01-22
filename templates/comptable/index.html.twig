@@ -1,8 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ComptableController!
+{% block title %}Page Comptable
 {% endblock %}
 
 {% block body %}
-	PUTE
+	<p>Connecté en tant que
+		{{ user.nom }}
+		{{ user.prenom }}<a href="{{ path('app_gsb_profil', {'id' : user.id}) }}" class="btn btn-primary">Profil</a>
+		<a href="{{ path('app_gsb_logout') }}" class="btn btn-primary">Déconnexion</a>
+	</p>
+
+	<table class="table">
+		<tr class="table-primary">
+			<td>ID</td>
+			<td>Libelle</td>
+			<td>Destination</td>
+			<td>Notes</td>
+			<td>Hebergement</td>
+			<td>Etat</td>
+		</tr>
+		{% for mission in missions %}
+			<tr>
+				<td>{{ mission.id }}</td>
+				<td>{{ mission.libelle }}</td>
+				<td>{{ mission.destination.nom }}</td>
+				<td>{{ mission.notes }}</td>
+				<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
+				{% if mission.etat == 1 %}
+					<td>Validée</td>
+				{% else %}
+					<td>En Attente</td>
+				{% endif %}
+				{% if mission.etat == 0 %}
+					<td>
+						<a class="btn btn-secondary" href="{{ path('app_gsb_comptable_afficher', {'id' : mission.id}) }}">Afficher</a>
+					</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+	</table>
+
 {% endblock %}

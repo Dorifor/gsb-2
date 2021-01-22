@@ -35,13 +35,13 @@ class Transport
     private $coeff_km;
 
     /**
-     * @ORM\OneToMany(targetEntity=Deplacer::class, mappedBy="transport")
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="transport")
      */
-    private $deplacements;
+    private $missions;
 
     public function __construct()
     {
-        $this->deplacements = new ArrayCollection();
+        $this->missions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,29 +86,29 @@ class Transport
     }
 
     /**
-     * @return Collection|Deplacer[]
+     * @return Collection|Mission[]
      */
-    public function getDeplacements(): Collection
+    public function getMissions(): Collection
     {
-        return $this->deplacements;
+        return $this->missions;
     }
 
-    public function addDeplacement(Deplacer $deplacement): self
+    public function addMission(Mission $mission): self
     {
-        if (!$this->deplacements->contains($deplacement)) {
-            $this->deplacements[] = $deplacement;
-            $deplacement->setTransport($this);
+        if (!$this->missions->contains($mission)) {
+            $this->missions[] = $mission;
+            $mission->setTransport($this);
         }
 
         return $this;
     }
 
-    public function removeDeplacement(Deplacer $deplacement): self
+    public function removeMission(Mission $mission): self
     {
-        if ($this->deplacements->removeElement($deplacement)) {
+        if ($this->missions->removeElement($mission)) {
             // set the owning side to null (unless already changed)
-            if ($deplacement->getTransport() === $this) {
-                $deplacement->setTransport(null);
+            if ($mission->getTransport() === $this) {
+                $mission->setTransport(null);
             }
         }
 

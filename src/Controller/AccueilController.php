@@ -53,10 +53,11 @@ class AccueilController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mission->setUser($user);
+            $mission->setEtat(0);
             $manager->persist($mission);
             $manager->flush();
 
-            return $this->redirectToRoute('app_gsb_accueil');
+            return $this->redirectToRoute('app_gsb_visiteur_accueil');
         }
 
         return $this->render('accueil/add.html.twig', [
@@ -68,7 +69,7 @@ class AccueilController extends AbstractController
     /**
      * @Route("visiteur/{id}/edit", name="app_gsb_edit", methods={"GET", "PUT"}, requirements={"id"="\d+"})
      */
-    public function edit(UserRepository $userRepository, Request $request, EntityManagerInterface $manager, MissionRepository $missionRepository, $id): Response
+    public function edit(Request $request, EntityManagerInterface $manager, MissionRepository $missionRepository, $id): Response
     {
         // On refuse l'accès à l'utilisateur s'il n'est pas authentifié
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -92,23 +93,13 @@ class AccueilController extends AbstractController
             $manager->flush();
 
             // On redirige l'utilisateur à la page d'accueil une fois la mission modifiée
-            return $this->redirectToRoute('app_gsb_accueil');
+            return $this->redirectToRoute('app_gsb_visiteur_accueil');
         }
 
         return $this->render('accueil/edit.html.twig', [
             'user' => $user,
             'mission' => $mission,
             'formMission' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("visiteur/{id}", name="app_gsb_detail_mission", methods="GET", requirements={"id"="\d+"})
-     */
-    public function detail(Mission $mission): Response
-    {
-        return $this->render("accueil/detail.html.twig", [
-            'mission' => $mission
         ]);
     }
 }

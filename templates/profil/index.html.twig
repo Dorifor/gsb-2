@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil de {{ user.nom }} {{ user.prenom }}
+{% block title %}Profil de
+	{{ user.nom }}
+	{{ user.prenom }}
 {% endblock %}
 
 {% block body %}
@@ -8,8 +10,12 @@
 		{{ user.prenom }}</h1>
 	<hr>
 	<p>{{ user.email }}</p>
-	<p>{{ user.ville.id }} {{ user.ville.nom }}</p>
+	<p>{{ user.ville.id }}
+		{{ user.ville.nom }}</p>
 	<p>{{ user.adresse }}</p>
-
-    <a href="{{ path('app_gsb_accueil') }}" class="btn btn-primary">Accueil</a>
+	{% if is_granted('ROLE_visiteur') %}
+		<a href="{{ path('app_gsb_visiteur_accueil') }}" class="btn btn-primary">Accueil</a>
+	{% elseif is_granted('ROLE_comptable') %}
+		<a href="{{ path('app_gsb_comptable_accueil') }}" class="btn btn-primary">Accueil</a>
+	{% endif %}
 {% endblock %}

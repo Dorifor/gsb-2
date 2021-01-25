@@ -13,18 +13,22 @@
 	<table class="table">
 		<tr class="table-primary">
 			<td>ID</td>
+			<td>Visiteur</td>
 			<td>Libelle</td>
 			<td>Destination</td>
-			<td>Notes</td>
+			<td>Date</td>
 			<td>Hebergement</td>
 			<td>Etat</td>
 		</tr>
 		{% for mission in missions %}
 			<tr>
 				<td>{{ mission.id }}</td>
+				<td>{{ mission.user.nom }}
+					{{ mission.user.prenom }}</td>
+
 				<td>{{ mission.libelle }}</td>
 				<td>{{ mission.destination.nom }}</td>
-				<td>{{ mission.notes }}</td>
+				<td>{{ mission.dateDebut | date('d/m/Y') }}</td>
 				<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
 				{% if mission.etat == 1 %}
 					<td>Validée</td>

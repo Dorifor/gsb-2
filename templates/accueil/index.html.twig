@@ -20,13 +20,17 @@
 			<td>Hebergement</td>
 		</tr>
 		{% for mission in user.missions %}
+			{% set difference = date(mission.dateDebut).diff(date("now")) %}
+			{% set Diff = difference.days %}
 			<tr>
 				<td>{{ mission.id }}</td>
 				<td>{{ mission.libelle }}</td>
 				<td>{{ mission.destination.nom }}</td>
-				<td>{{ mission.notes }}</td>
-				<td>{{ mission.hebergement ? mission.hebergement.libelle }}</td>
-				{% if mission.etat == 0 %}
+				<td>{{ mission.dateDebut | date('d/m/Y') }}</td>
+				<td>{{ mission.hebergement ? mission.hebergement.libelle }}
+					--{{ Diff }}</td>
+
+				{% if mission.etat == 0 and Diff < 30 %}
 					<td>
 						<a class="btn btn-secondary" href="{{ path('app_gsb_edit', {'id' : mission.id}) }}">Modifier</a>
 					</td>

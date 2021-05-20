@@ -8,7 +8,7 @@
 	<p>Connecté en tant que
 		{{ user.nom }}
 		{{ user.prenom }}</p>
-
+	<div class="d-flex align-items-center justify-content-center flex-column">
 	{{ form_start(formMission) }}
 	{{ form_row(formMission.libelle) }}
 	{{ form_row(formMission.destination) }}
@@ -22,6 +22,7 @@
 	{{ form_row(formMission.notes) }}
 	<input type="submit" value="Modifier" class="btn btn-primary">
 	{{ form_end(formMission) }}
+	</div>
 	<a href="{{ path('app_gsb_visiteur_accueil') }}" class="btn btn-primary">Accueil</a>
 	<script>
 		var date = document.querySelectorAll('.js-date.form-inline > select');

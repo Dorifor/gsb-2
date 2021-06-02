@@ -28,13 +28,22 @@
 	</div>
 
 	<script>
+		var fileInput = document.querySelector('#ajouter_mission_just_heb');
+		fileInput.addEventListener('change', () => {
+			var fileName = fileInput.value.replace(`C:\\fakepath\\`, '').trim();
+			fileInput.parentNode.querySelectorAll('.custom-file-label')[0].innerHTML = fileName;
+		})
+
 		var date = document.querySelectorAll('.js-date.form-inline > select');
+		var transport = document.getElementById('ajouter_mission_prx_transport');
 		var x = 0;
 
 		for (var i = 0; i < date.length; i++) { // date[i].addEventListener('onchange', calculTotal(date[i].value));
 			date[i].setAttribute('onchange', 'calculTotal()');
 			console.log(date[i]);
 		}
+
+		transport.setAttribute('onchange', 'calculTotal()');
 
 		var date_diff_indays = function(date1, date2) {
 			dt1 = new Date(date1);
@@ -44,7 +53,6 @@
 
 		function calculTotal() {
 			var res = document.getElementById('js-total');
-			var transport = document.getElementById('ajouter_mission_prx_transport');
 			console.log(transport);
 			var d1 = date[0].value;
 			var m1 = date[1].value;

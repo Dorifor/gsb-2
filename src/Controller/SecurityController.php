@@ -19,6 +19,8 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_gsb_visiteur_accueil');
         } else if ($this->getUser() && $this->isGranted('ROLE_comptable')) {
             return $this->redirectToRoute('app_gsb_comptable_accueil');
+        } else if ($this->getUser() && $this->isGranted('ROLE_admin')) {
+            return $this->redirectToRoute('app_gsb_admin_accueil');
         }
 
         // Retourne une erreur s'il y en a une 

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Utilisateurs{% endblock %}
+
+{% block body %}
+<ul>
+{% for user in users %}
+    <li>{{ user.nom }} {{ user.prenom }}</li>
+{% endfor %}
+</ul>
+<a href="{{ path('app_gsb_admin_add_user') }}">Ajouter Utilisateur</a>
+{% endblock %}

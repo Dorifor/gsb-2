@@ -9,8 +9,11 @@ use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AccueilController extends AbstractController
 {
@@ -52,6 +55,25 @@ class AccueilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $justificationFile = $form->get('just_heb')->getData();
+
+            if ($justificationFile) {
+                $originalFilename = pathinfo($justificationFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = 'justif-' . uniqid() . '.' . $justificationFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $justificationFile->move(
+                    $this->getParameter('justification_directory'),
+                    $newFilename
+                );
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $mission->setJustHeb($newFilename);
+            }
+
             $mission->setUser($user);
             $mission->setEtat(0);
             $manager->persist($mission);
@@ -87,6 +109,24 @@ class AccueilController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $justificationFile = $form->get('just_heb')->getData();
+
+            if ($justificationFile) {
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = 'justif-' . uniqid() . '.' . $justificationFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $justificationFile->move(
+                    $this->getParameter('justification_directory'),
+                    $newFilename
+                );
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $mission->setJustHeb($newFilename);
+            }
+
             $mission->setUser($user);
 
             // On envoit la requête à la table

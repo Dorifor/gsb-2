@@ -2,17 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Hebergement;
-use App\Entity\Mission;
-use App\Entity\Transport;
+use DateTime;
 use App\Entity\User;
 use App\Entity\Ville;
-use DateTime;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Mission;
+use App\Entity\Transport;
+use App\Entity\Hebergement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AjouterMissionType extends AbstractType
 {
@@ -50,7 +52,14 @@ class AjouterMissionType extends AbstractType
                 'class' => Hebergement::class,
                 'choice_label' => 'libelle'
             ])
-            ->add('just_heb')
+            ->add('just_heb', FileType::class, [
+                'label' => 'Justification PDF',
+                'attr' => [
+                    'placeholder' => 'Choisissez un fichier'
+                ],
+                'required' => false,
+                'data_class' => null
+            ])
             ->add('notes');
     }
 

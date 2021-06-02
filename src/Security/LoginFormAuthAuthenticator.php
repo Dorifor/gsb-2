@@ -101,6 +101,8 @@ class LoginFormAuthAuthenticator extends AbstractFormLoginAuthenticator implemen
             return new RedirectResponse($this->urlGenerator->generate('app_gsb_comptable_accueil'));
         } else if (in_array('ROLE_visiteur', $token->getRoleNames())) {
             return new RedirectResponse($this->urlGenerator->generate('app_gsb_visiteur_accueil'));
+        } else if (in_array('ROLE_admin', $token->getRoleNames())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_gsb_admin_accueil'));
         }
         throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }

@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajouter Utilisateur
+{% endblock %}
+
+{% block body %}
+	{{ form_start(formUtilisateur) }}
+        {{ form_row(formUtilisateur.nom) }}
+        {{ form_row(formUtilisateur.prenom) }}
+        {{ form_row(formUtilisateur.email) }}
+        {{ form_row(formUtilisateur.password) }}
+        {{ form_row(formUtilisateur.roles) }}
+        {{ form_row(formUtilisateur.adresse) }}
+        {{ form_row(formUtilisateur.naissance) }}
+        {{ form_row(formUtilisateur.ville) }}
+        <button type="submit" class="btn btn-primary">OK</button>
+	{{ form_end(formUtilisateur) }}
+
+	<a href="{{ path('app_gsb_admin_ville_search') }}" id="url-list" class="hidden"></a>
+	<a href="{{ path('app_gsb_admin_ville_get') }}" id="url-get" class="hidden"></a>
+
+	<script src="{{ asset('/assets/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('bundles/pugxautocompleter-bundle/js/autocompleter-jqueryui.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            console.log('pute');
+            var options = {
+                url_list: $('#url-list').attr('href'),
+                url_get: $('#url-get').attr('href'),
+                otherOptions: {
+                    minimumInputLength: 2,
+                    theme: 'boostrap',
+                    formatNoMatches: 'Aucune ville trouvée.',
+                    formatSearching: 'Recherche de villes',
+                    formatInputTooShort: 'Insérez au moins 2 caractères'
+                };
+            $('#ajouter_utilisateur_ville').autocompleter(options);
+            console.log('options : ', options);
+        });
+    </script>
+{% endblock %}

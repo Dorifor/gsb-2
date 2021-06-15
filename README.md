@@ -1,2 +1,2 @@
-# gsb-2
+# gsb
 Mon projet de BTS SIO en symfony
